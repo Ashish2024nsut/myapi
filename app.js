@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const dotenv = require('dotenv');
+const bodyparser = require('body-parser');
 dotenv.config();
 
 //connecting databse:
@@ -13,15 +14,19 @@ mongoose.connect(`${process.env.MONGO_URL}`).then(()=>{
 
 
 //router
-const home = require('./routers/home');
+const user = require('./routers/user');
 
 
 //configuring routers
-app.use('/home',home);
+app.use('/user',user);
+app.use(bodyparser());
+
 
 app.get('/',(req,res)=>{
     res.send("express app is active now");
 });
+
+
 
 
 const PORT = process.env.PORT || 3000;
