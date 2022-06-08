@@ -78,4 +78,22 @@ router.put('/:id',async (req,res)=>{
     res.json({"message" : "user updated","user" : user});
 });
 
+
+/*
+route               '/delte/:id'
+desc                deleting the user 
+access              private
+pramas              id
+method              delete
+*/
+
+router.delete('/delete/:id',async (req,res)=>{
+   const user =  await userModel.findOneAndDelete({rollNo : req.params.id});
+
+   if(!user){
+        res.json({"message":"user not found"});
+   }
+
+   res.json({"message":"user deleted successfully","user":user});
+});
 module.exports = router;
