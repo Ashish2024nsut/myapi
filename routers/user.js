@@ -4,6 +4,14 @@ const userModel = require('../models/user');
 //creating router
 const router = express.Router();
 
+/*
+route               '/'
+desc                getallusers
+access              admin
+pramas              none
+method              get
+*/
+
 router.get('/',async (req,res)=>{
     const users = await userModel.find();
     res.json({"message":"the users registered are: ",
@@ -28,6 +36,14 @@ router.get('/:id', async(req,res)=>{
     "user" : getspecificuser});
 });
 
+/*
+route               '/register'
+desc                registering user
+access              public
+pramas              none
+method              post
+*/
+
 router.post('/register', async (req,res)=>{
     const user = new userModel(req.body);
 
@@ -46,6 +62,20 @@ router.post('/register', async (req,res)=>{
         // res.send("error occured creating user");
         res.json({"error": err.message});
     })
+});
+
+
+/*
+route               '/:id'
+desc                changing the user roll
+access              public
+pramas              id
+method              put
+*/
+router.put('/:id',async (req,res)=>{
+    await userModel.findOneAndUpdate({rollNo : req.params.id},req.body);
+    const user = await userModel.find({rollNo : req.body.rollNo});
+    res.json({"message" : "user updated","user" : user});
 });
 
 module.exports = router;
