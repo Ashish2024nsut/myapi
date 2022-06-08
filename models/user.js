@@ -3,13 +3,20 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     name : {
         type: String,
-        // required: true,
-        minlength: 10,
+        required: "name is required",
+        minlength: 5,
         maxlength: 30
     },
     email : {
         type: String,
-        // required: true
+        required: "email is required",
+        minlength:12
+    },
+    rollNo: {
+        type : Number,
+        required: "roll is required",
+        minlength:12,
+        maxlength:12
     }
 });
 

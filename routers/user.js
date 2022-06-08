@@ -11,14 +11,14 @@ router.get('/',(req,res)=>{
 router.post('/register',(req,res)=>{
     const user = new userModel(req.body);
 
-    console.log(user.name);
     user.save().then(()=>{
-        res.send({"message":"user created successfully","user" :`${user}`});
+        res.send({"message":"user created succesfully",
+    "user": user});
     }).catch(err=>{
-        console.log({"error" : err.message});
-        res.send({"error":err.message});
+        console.log(`error : ${err.message}`);
+        // res.send("error occured creating user");
+        res.json({"error": err.message});
     })
-    return ;   
 });
 
 module.exports = router;

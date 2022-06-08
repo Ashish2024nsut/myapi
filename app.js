@@ -18,8 +18,10 @@ const user = require('./routers/user');
 
 
 //configuring routers
+// app.use(express.urlencoded({extended:false}));
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }))
 app.use('/user',user);
-app.use(bodyparser());
 
 
 app.get('/',(req,res)=>{
