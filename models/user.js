@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
         required: "roll is required",
         minlength:12,
         maxlength:12
+    },
+    posts : {
+        type : [String],
+        "default" :[]
     }
 });
 

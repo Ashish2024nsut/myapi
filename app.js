@@ -15,14 +15,14 @@ mongoose.connect(`${process.env.MONGO_URL}`).then(()=>{
 
 //router
 const user = require('./routers/user');
-
+const post = require('./routers/post');
 
 //configuring routers
 // app.use(express.urlencoded({extended:false}));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }))
 app.use('/user',user);
-
+app.use('/post',post);
 
 app.get('/',(req,res)=>{
     res.send("express app is active now");

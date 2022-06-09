@@ -1,6 +1,8 @@
 const express = require('express');
 const userModel = require('../models/user');
-
+const postModel = require('../models/post');
+const { findOneAndUpdate } = require('../models/user');
+const { json } = require('body-parser');
 //creating router
 const router = express.Router();
 
@@ -64,17 +66,42 @@ router.post('/register', async (req,res)=>{
     })
 });
 
+/*
+route               '/post'
+desc                create a  user post
+access              public
+pramas              id
+method              post
+*/
+
+router.post('/post/:id',async (req,res)=>{
+    const post  = new postModel(req.body);
+    const postId = post._id;
+
+    const user = await userModel.findOne({rollNo : req.params.id});
+    if(user.length==0){
+        res.json({"message":"no such user exists"});
+    }
+    user.posts.push(postId);
+    await user.save();
+    await post.save();
+
+    res.json({"message": "post created successfully",user : user,post : post});
+})
+
 
 /*
-route               '/:id'
+route               '/update?id=$userID&newroll=$newuserRoll'
 desc                changing the user roll
 access              public
 pramas              id
 method              put
 */
-router.put('/:id',async (req,res)=>{
-    await userModel.findOneAndUpdate({rollNo : req.params.id},req.body);
-    const user = await userModel.find({rollNo : req.body.rollNo});
+router.put('/update',async (req,res)=>{
+    const userid=req.query.id;
+    const newroll = req.query.newroll;
+    await userModel.findOneAndUpdate({rollNo : userid},{rollNo : newroll});
+    const user = await userModel.find({rollNo : newroll});
     res.json({"message" : "user updated","user" : user});
 });
 
